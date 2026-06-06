@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Regular Guy Labs — Indie App Studio</title>
-  <meta name="description" content="An indie app studio. Practical software, no fluff. Home of Wheelright.">
+  <meta name="description" content="An indie app studio of one. Practical software, no fluff, no subscriptions. Home of Wheelright.">
 
   <!-- Open Graph -->
   <meta property="og:title" content="Regular Guy Labs">
@@ -13,242 +13,416 @@
   <meta property="og:url" content="https://regularguylabs.com">
   <meta property="og:image" content="https://regularguylabs.com/og-image.png">
 
-  <link rel="icon" type="image/png" href="/logo.png">
-  <link rel="apple-touch-icon" href="/logo.png">
+  <link rel="icon" type="image/png" href="/rgl-avatar.png">
+  <link rel="apple-touch-icon" href="/rgl-avatar.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            bg: '#FAF7F1',
-            ink: '#0A0A0A',
-            muted: '#6B6B6B',
-            soft: '#8A8A8A',
-            line: '#E8E4DB',
-            card: '#FFFFFF',
-          },
-          fontFamily: {
-            sans: ['DM Sans', 'system-ui', 'sans-serif'],
-            serif: ['Instrument Serif', 'ui-serif', 'Georgia', 'serif'],
-          },
-        },
-      },
-    };
-  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
   <style>
+    /* ===== Tokens — Regular Guy Labs studio (monochrome: black / white / grey) ===== */
+    :root {
+      --rgl-black:#0A0A0A; --rgl-grey-700:#3A3A3A; --rgl-grey-600:#6B6B6B;
+      --rgl-grey-500:#8A8A8A; --rgl-grey-300:#CFCFCF; --rgl-grey-200:#E6E6E6;
+      --rgl-grey-100:#F4F4F4; --rgl-off-white:#FAFAFA; --rgl-white:#FFFFFF;
+
+      --bg:var(--rgl-white); --bg-secondary:var(--rgl-off-white); --surface-card:var(--rgl-white);
+      --text-ink:var(--rgl-black); --text-muted:var(--rgl-grey-600); --text-soft:var(--rgl-grey-500);
+      --text-secondary:var(--rgl-grey-600);
+      --accent:var(--rgl-black); --accent-muted:var(--rgl-grey-700); --accent-wash:var(--rgl-grey-100);
+      --on-accent:var(--rgl-white);
+      --border:var(--rgl-grey-200); --border-strong:var(--rgl-grey-300); --card-border:var(--rgl-grey-200);
+
+      --font-serif:"Instrument Serif", ui-serif, Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+      --font-sans:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+      --r-sm:4px; --r-md:8px; --r-lg:10px; --r-card:16px;
+      --shadow-card:0 1px 2px rgba(10,10,10,0.05), 0 4px 12px rgba(10,10,10,0.05);
+      --shadow-hover:0 12px 40px rgba(10,10,10,0.06);
+      --dur-fast:0.12s; --dur-base:0.2s; --ease-out:cubic-bezier(0.22,1,0.36,1);
+    }
+
+    *,*::before,*::after { box-sizing: border-box; }
+    [hidden] { display: none !important; }
     html { scroll-behavior: smooth; }
-    body { font-feature-settings: "ss01", "cv11"; }
-    .logo-mark {
-      filter: drop-shadow(0 8px 24px rgba(10,10,10,0.08));
+    body { margin:0; background:var(--bg); color:var(--text-ink);
+           font-family:var(--font-sans); -webkit-font-smoothing:antialiased; }
+    .page { min-height:100vh; display:flex; flex-direction:column; }
+    main { flex:1; }
+    img { max-width:100%; }
+
+    /* ===== Primitives ===== */
+    .eyebrow { display:inline-flex; align-items:center; gap:10px; font-family:var(--font-sans);
+      font-size:12px; font-weight:600; text-transform:uppercase; }
+    .eyebrow--soft { letter-spacing:0.22em; color:var(--text-soft); }
+    .eyebrow--rule { letter-spacing:0.12em; color:var(--accent); }
+    .eyebrow--rule::before { content:""; width:24px; height:1px; background:currentColor; display:inline-block; }
+
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      border-radius:var(--r-md); padding:10px 18px; border:1px solid transparent; cursor:pointer;
+      font-family:var(--font-sans); font-weight:600; font-size:15px; line-height:1; letter-spacing:-0.005em;
+      text-decoration:none; transition:transform var(--dur-fast) ease, background-color var(--dur-fast) ease,
+      border-color var(--dur-fast) ease, opacity var(--dur-fast) ease; }
+    .btn:active { transform:scale(0.97); }
+    .btn:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+    .btn--prominent { background:var(--accent); color:var(--on-accent); }
+    .btn--prominent:hover { background:var(--accent-muted); }
+    .btn--lg { padding:14px 22px; font-size:16px; border-radius:var(--r-lg); }
+
+    .store-btn { display:inline-flex; align-items:center; gap:10px; padding:10px 18px 10px 14px;
+      border-radius:var(--r-lg); background:var(--text-ink); color:var(--bg); text-decoration:none;
+      font-family:var(--font-sans); }
+    .store-btn__l1 { font-size:10px; opacity:0.8; display:block; line-height:1; margin-bottom:2px; }
+    .store-btn__l2 { font-size:16px; font-weight:600; display:block; line-height:1.1; letter-spacing:-0.01em; }
+
+    .badge { display:inline-flex; align-items:center; gap:4px; padding:2px 8px; border-radius:var(--r-sm);
+      font-family:var(--font-sans); font-size:11px; font-weight:700; letter-spacing:0.04em; line-height:1.4;
+      border:1px solid transparent; white-space:nowrap; }
+    .badge--outline { background:transparent; color:var(--accent);
+      border-color:color-mix(in srgb, var(--accent) 45%, transparent); }
+
+    .card { display:block; background:var(--surface-card); border:1px solid var(--card-border);
+      border-radius:var(--r-card); padding:24px; box-shadow:var(--shadow-card); }
+    .card--dashed { background:transparent; border-style:dashed; box-shadow:none; }
+
+    .field { display:flex; flex-direction:column; gap:6px; font-family:var(--font-sans); }
+    .field__label { font-size:13px; font-weight:600; color:var(--text-muted); }
+    .field__control { width:100%; padding:12px 14px; border:1px solid var(--border-strong);
+      border-radius:var(--r-md); background:var(--bg); color:var(--text-ink); font:inherit; font-size:15px;
+      transition:border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease; }
+    .field__control::placeholder { color:var(--text-soft); }
+    .field__control:focus { outline:none; border-color:var(--accent);
+      box-shadow:0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent); }
+    textarea.field__control { min-height:120px; resize:vertical; }
+
+    /* ===== Nav ===== */
+    .nav { position:sticky; top:0; z-index:50;
+      background:color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter:saturate(1.4) blur(14px); -webkit-backdrop-filter:saturate(1.4) blur(14px); }
+    .nav__inner { display:flex; align-items:center; justify-content:space-between;
+      max-width:768px; margin-inline:auto; padding:18px 28px; }
+    .nav__brand { display:inline-flex; align-items:center; gap:10px; font-weight:600; font-size:15px;
+      letter-spacing:-0.01em; color:var(--text-ink); text-decoration:none; }
+    .nav__brand img { width:30px; height:30px; object-fit:contain; }
+    .nav__links { display:flex; align-items:center; gap:22px; }
+    .nav__links a { font-size:14px; font-weight:500; color:var(--text-muted); text-decoration:none; transition:color .15s; }
+    .nav__links a:hover { color:var(--text-ink); }
+    .nav__contact { font:inherit; font-size:14px; font-weight:500; color:var(--text-muted);
+      background:none; border:none; cursor:pointer; padding:0; transition:color .15s; }
+    .nav__contact:hover { color:var(--text-ink); }
+
+    /* ===== Hero ===== */
+    .hero { max-width:768px; margin-inline:auto; padding:72px 28px 64px; text-align:center; }
+    .hero__avatar { width:120px; height:120px; object-fit:contain; margin:0 auto 28px; display:block;
+      filter:drop-shadow(0 8px 24px rgba(10,10,10,0.08)); }
+    .hero__title { font-family:var(--font-serif); font-weight:400; font-size:clamp(46px,8vw,72px);
+      line-height:1.02; letter-spacing:-0.02em; margin:22px auto 0; max-width:14ch; }
+    .hero__title em { font-style:italic; color:var(--accent); }
+    .hero__lede { font-size:18px; line-height:1.6; color:var(--text-muted); max-width:46ch; margin:26px auto 0; }
+    .hero__sign { display:inline-flex; align-items:center; gap:12px; margin-top:34px; font-size:13px;
+      color:var(--text-soft); letter-spacing:0.02em; }
+    .hero__rule { width:28px; height:1px; background:var(--border-strong); }
+
+    /* ===== Section scaffolding ===== */
+    .section { max-width:768px; margin-inline:auto; padding:64px 28px; }
+    .section--tight { padding:36px 28px; }
+    .divider { display:flex; align-items:center; gap:18px; margin-bottom:40px; }
+    .divider span { flex:1; height:1px; background:var(--border); }
+    .section__head { margin-bottom:36px; }
+    .section__title { font-family:var(--font-serif); font-weight:500; font-size:clamp(30px,5vw,44px);
+      line-height:1.08; letter-spacing:-0.02em; margin:14px 0 0; }
+    .section__title em { font-style:italic; color:var(--accent); }
+
+    /* ===== Shipping (Wheelright) ===== */
+    .ship { display:grid; grid-template-columns:1.15fr 0.85fr; gap:48px; align-items:center; }
+    .ship__head { display:flex; align-items:center; gap:14px; margin-bottom:22px; }
+    .ship__mark { width:52px; height:52px; border-radius:14px; overflow:hidden; flex:0 0 auto; box-shadow:var(--shadow-card); }
+    .ship__mark img { width:100%; height:100%; object-fit:cover; display:block; }
+    .ship__name { font-size:20px; font-weight:700; letter-spacing:-0.01em; margin:0; }
+    .ship__plat { font-size:12px; color:var(--text-soft); text-transform:uppercase; letter-spacing:0.08em; margin-top:3px; }
+    .ship__pitch { font-family:var(--font-serif); font-size:22px; line-height:1.4; color:var(--text-ink); margin:0 0 22px; }
+    .ship__bullets { list-style:none; padding:0; margin:0 0 28px; display:flex; flex-direction:column; gap:12px; }
+    .ship__bullets li { display:flex; gap:12px; align-items:flex-start; font-size:15px; color:var(--text-muted); line-height:1.5; }
+    .ship__bullets li svg { color:var(--accent); flex:0 0 auto; margin-top:1px; }
+    .ship__ctas { display:flex; gap:12px; flex-wrap:wrap; align-items:center; }
+    .ship__visual { display:grid; place-items:center; }
+
+    /* ===== Phone ===== */
+    .phone { width:260px; aspect-ratio:320/660; background:#111; border:9px solid #111;
+      border-radius:38px; overflow:hidden; box-shadow:0 30px 60px rgba(10,10,10,0.18), 0 10px 22px rgba(10,10,10,0.08); }
+    .phone img { width:100%; height:100%; object-fit:cover; display:block; }
+
+    /* ===== In the lab ===== */
+    .lab { display:flex; gap:18px; align-items:center; }
+    .lab__icon { width:48px; height:48px; border-radius:14px; border:1px dashed var(--border-strong);
+      color:var(--text-soft); display:grid; place-items:center; flex:0 0 auto; }
+    .lab__title { font-size:16px; font-weight:600; color:var(--text-soft); margin:0; }
+    .lab__body { font-size:14px; color:var(--text-soft); margin-top:4px; line-height:1.5; }
+
+    /* ===== Principles ===== */
+    .principles { display:grid; grid-template-columns:1fr 1fr; gap:4px 48px; }
+    .principle { padding:26px 0; border-top:1px solid var(--border); }
+    .principle__num { font-family:var(--font-serif); font-style:italic; font-size:28px; color:var(--accent); }
+    .principle h3 { font-size:18px; font-weight:600; letter-spacing:-0.01em; margin:8px 0; }
+    .principle p { font-size:15px; color:var(--text-muted); line-height:1.55; margin:0; }
+
+    /* ===== About ===== */
+    .about { max-width:56ch; }
+    .about p { font-family:var(--font-serif); font-size:24px; line-height:1.45; color:var(--text-ink); margin:0 0 20px; }
+    .about p:last-child { margin-bottom:0; color:var(--text-secondary); }
+
+    /* ===== Contact ===== */
+    .contact { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:start; }
+    .contact__intro p { font-size:16px; color:var(--text-muted); line-height:1.6; margin:16px 0 22px; }
+    .contact__email { display:inline-flex; align-items:center; gap:8px; font-size:15px; font-weight:500;
+      color:var(--accent); text-decoration:none;
+      border-bottom:1px solid color-mix(in srgb, var(--accent) 35%, transparent); padding-bottom:2px; }
+    .contact__grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .contact__msg { margin-top:14px; }
+    .contact__send { width:100%; margin-top:16px; }
+    .contact__thanks { text-align:center; padding:28px 0; display:flex; flex-direction:column; align-items:center; gap:12px; }
+    .contact__thanks svg { color:var(--accent); }
+    .contact__thanks p { font-size:16px; color:var(--text-ink); font-weight:500; margin:0; }
+
+    /* ===== Footer ===== */
+    .foot { border-top:1px solid var(--border); max-width:768px; margin:40px auto 0; padding:28px;
+      display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .foot__brand { display:flex; align-items:center; gap:10px; font-size:13px; color:var(--text-muted); }
+    .foot__brand img { width:24px; height:24px; object-fit:contain; opacity:0.75; }
+    .foot__links { display:flex; gap:22px; }
+    .foot__links a { font-size:13px; color:var(--text-muted); text-decoration:none; transition:color .15s; }
+    .foot__links a:hover { color:var(--text-ink); }
+
+    @media (max-width:720px) {
+      .ship, .contact { grid-template-columns:1fr; gap:32px; }
+      .principles { grid-template-columns:1fr; gap:0; }
+      .contact__grid { grid-template-columns:1fr; }
+      .foot { flex-direction:column; align-items:flex-start; }
     }
   </style>
 </head>
-<body class="bg-bg text-ink font-sans antialiased min-h-screen flex flex-col">
+<body>
+<div class="page">
 
   <!-- Nav -->
-  <header class="w-full">
-    <nav class="max-w-4xl mx-auto flex items-center justify-between px-6 py-6 sm:px-10">
-      <a href="/" class="flex items-center gap-3 no-underline group">
-        <img src="/logo.png" alt="" class="w-8 h-8 object-contain">
-        <span class="text-sm font-semibold tracking-tight text-ink">Regular Guy Labs</span>
+  <header class="nav">
+    <div class="nav__inner">
+      <a class="nav__brand" href="#top">
+        <img src="/rgl-avatar.png" alt="" width="30" height="30">
+        <span>Regular Guy Labs</span>
       </a>
-      <button
-        onclick="document.getElementById('contact-modal').classList.remove('hidden')"
-        class="text-xs font-medium text-muted hover:text-ink transition-colors duration-200 bg-transparent border-none cursor-pointer font-sans tracking-wide"
-      >Contact</button>
-    </nav>
+      <nav class="nav__links">
+        <a href="#shipping">Products</a>
+        <a href="#about">About</a>
+        <a class="nav__contact" href="#contact">Contact</a>
+      </nav>
+    </div>
   </header>
 
-  <main class="flex-1">
+  <main>
     <!-- Hero -->
-    <section class="max-w-3xl mx-auto px-6 sm:px-10 pt-16 sm:pt-24 pb-20 text-center">
-      <img src="/logo.png" alt="Regular Guy Labs" class="logo-mark w-36 h-36 sm:w-44 sm:h-44 object-contain mx-auto mb-10">
-
-      <p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-soft mb-6">An Indie App Studio</p>
-
-      <h1 class="font-serif text-[44px] sm:text-[60px] leading-[1.05] tracking-tight text-ink mb-8 max-w-[16ch] mx-auto">
-        Practical software<br><em class="italic font-normal">for practical people.</em>
-      </h1>
-
-      <p class="text-base sm:text-lg text-muted leading-relaxed mx-auto max-w-[44ch]">
-        A studio of one. Building tools that solve real problems — no fluff, no subscriptions, no dark patterns.
+    <section class="hero" id="top">
+      <img class="hero__avatar" src="/rgl-avatar.png" alt="Regular Guy Labs" width="120" height="120">
+      <span class="eyebrow eyebrow--soft">An Indie App Studio</span>
+      <h1 class="hero__title">Practical software<br><em>for practical people.</em></h1>
+      <p class="hero__lede">
+        I build calm, focused tools that solve real problems. No fluff, no subscriptions, no dark patterns.
       </p>
+      <div class="hero__sign">
+        <span class="hero__rule"></span>
+        Oahu, Hawaii
+      </div>
     </section>
 
-    <!-- Products -->
-    <section class="max-w-3xl mx-auto px-6 sm:px-10 pb-20">
-      <div class="flex items-center gap-4 mb-8">
-        <div class="h-px bg-line flex-1"></div>
-        <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-soft">In the wild</p>
-        <div class="h-px bg-line flex-1"></div>
-      </div>
+    <!-- Currently shipping: Wheelright -->
+    <section class="section" id="shipping">
+      <div class="divider"><span></span><span class="eyebrow eyebrow--soft">Currently shipping</span><span></span></div>
 
-      <div class="grid gap-4 max-w-xl mx-auto">
-        <a
-          href="https://wheelright.app"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="group block bg-card border border-line rounded-2xl p-6 no-underline transition-all duration-200 hover:border-ink/20 hover:-translate-y-0.5 hover:shadow-[0_12px_40px_rgba(10,10,10,0.06)]"
-        >
-          <div class="flex items-center gap-5">
-            <!-- OWP wheel mark -->
-            <div class="w-14 h-14 rounded-2xl bg-[#0F3B2E] flex items-center justify-center flex-shrink-0">
-              <svg class="w-7 h-7 text-[#F5EFE1]" viewBox="0 0 64 64" fill="none" aria-hidden="true">
-                <circle cx="28" cy="34" r="22" fill="none" stroke="currentColor" stroke-width="3.5"/>
-                <circle cx="28" cy="34" r="4" fill="currentColor"/>
-                <g stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-                  <line x1="28" y1="12" x2="28" y2="56"/>
-                  <line x1="6" y1="34" x2="50" y2="34"/>
-                  <line x1="12.5" y1="18.5" x2="43.5" y2="49.5"/>
-                  <line x1="43.5" y1="18.5" x2="12.5" y2="49.5"/>
-                </g>
-                <path d="M18 44 Q 34 28 50 20 L 44 19 M 50 20 L 49 26" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
-              </svg>
+      <div class="ship">
+        <div class="ship__copy">
+          <div class="ship__head">
+            <span class="ship__mark"><img src="/wheelright-icon-512.png" alt="Wheelright"></span>
+            <div>
+              <h2 class="ship__name">Wheelright</h2>
+              <div class="ship__plat">iPhone · iPad · Mac</div>
             </div>
-            <div class="flex-1 min-w-0 text-left">
-              <div class="flex items-baseline gap-2">
-                <div class="text-[15px] font-semibold text-ink tracking-tight">Wheelright</div>
-                <div class="text-[10px] text-soft font-medium uppercase tracking-wider">iPhone · iPad · Mac</div>
-              </div>
-              <div class="text-[13px] text-muted mt-1 leading-snug">
-                Run the options wheel. Run it right. A focused tracker for cash-secured puts, covered calls, and the long slow compound of premium.
-              </div>
-            </div>
-            <svg class="w-4 h-4 text-soft group-hover:text-ink group-hover:translate-x-0.5 transition-all duration-200 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
-            </svg>
+            <span class="badge badge--outline" style="margin-left:auto">Mid 2026</span>
           </div>
-        </a>
 
-        <!-- Coming soon placeholder -->
-        <div class="block bg-transparent border border-dashed border-line rounded-2xl p-6">
-          <div class="flex items-center gap-5">
-            <div class="w-14 h-14 rounded-2xl border border-dashed border-line flex items-center justify-center flex-shrink-0">
-              <svg class="w-5 h-5 text-soft" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
-              </svg>
-            </div>
-            <div class="flex-1 min-w-0 text-left">
-              <div class="text-[15px] font-semibold text-soft tracking-tight">In the lab</div>
-              <div class="text-[13px] text-soft mt-1 leading-snug">Something new is in progress. Watch this space.</div>
-            </div>
+          <p class="ship__pitch">
+            Run the options wheel. Run it right. A focused tracker for cash-secured puts, covered calls,
+            and the long slow compound of premium collected.
+          </p>
+
+          <ul class="ship__bullets">
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+              See every cycle on a ticker as one object, not ten trades.
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="7" x2="16" y2="7"/><line x1="8" y1="12" x2="8.01" y2="12"/><line x1="12" y1="12" x2="12.01" y2="12"/><line x1="16" y1="12" x2="16.01" y2="12"/><line x1="8" y1="16" x2="8.01" y2="16"/><line x1="12" y1="16" x2="12.01" y2="16"/><line x1="16" y1="16" x2="16.01" y2="16"/></svg>
+              Log a trade in ten seconds. The math updates as you type.
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg>
+              Your data stays on your device. No accounts, no broker linking.
+            </li>
+          </ul>
+
+          <div class="ship__ctas">
+            <a class="btn btn--prominent" href="https://wheelright.app" target="_blank" rel="noopener noreferrer">
+              Visit wheelright.app
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" y1="12" x2="21" y2="12"/><polyline points="14 5 21 12 14 19"/></svg>
+            </a>
+            <a class="store-btn" href="#">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.08zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+              <span>
+                <span class="store-btn__l1">Coming</span>
+                <span class="store-btn__l2">Mid 2026</span>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <div class="ship__visual">
+          <div class="phone">
+            <img src="/wheelright-dashboard.png" alt="Wheelright dashboard on iPhone">
           </div>
         </div>
       </div>
     </section>
 
-    <!-- About -->
-    <section class="max-w-3xl mx-auto px-6 sm:px-10 pb-20">
-      <div class="max-w-[44ch] mx-auto text-center">
-        <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-soft mb-6">About</p>
-        <p class="font-serif text-[22px] sm:text-[26px] leading-[1.4] text-ink">
-          Regular Guy Labs is a one-person indie studio on Oahu&rsquo;s North Shore. I build what I&rsquo;d want to use, then make it for others who&rsquo;d want to use it too.
+    <!-- In the lab -->
+    <section class="section section--tight" id="lab">
+      <div class="card card--dashed lab">
+        <span class="lab__icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </span>
+        <div>
+          <h2 class="lab__title">In the lab</h2>
+          <p class="lab__body">
+            A second tool is taking shape. It is small, it is sharp, and it is not ready to talk about
+            yet. Check back.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- What I believe -->
+    <section class="section" id="about">
+      <div class="section__head">
+        <span class="eyebrow eyebrow--rule">What I believe</span>
+        <h2 class="section__title">Opinions, held quietly,<br><em>built into the work.</em></h2>
+      </div>
+      <div class="principles">
+        <div class="principle">
+          <span class="principle__num">01</span>
+          <h3>One person, on the record.</h3>
+          <p>Every app here is built and supported by me. You always know who you are talking to.</p>
+        </div>
+        <div class="principle">
+          <span class="principle__num">02</span>
+          <h3>You buy it. You own it.</h3>
+          <p>A one-time price, not a meter. No subscriptions, no surprise renewals, no holding features hostage.</p>
+        </div>
+        <div class="principle">
+          <span class="principle__num">03</span>
+          <h3>Your data is yours.</h3>
+          <p>On-device by default. Optional sync is end-to-end encrypted. I never see it and never sell it.</p>
+        </div>
+        <div class="principle">
+          <span class="principle__num">04</span>
+          <h3>Less, but better.</h3>
+          <p>I would rather ship five things that are right than fifty that are fine. No feature for its own sake.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- About paragraph -->
+    <section class="section section--tight">
+      <div class="about">
+        <p>
+          Regular Guy Labs is a new one-person studio on Oahu. The idea is simple:
+          build the kind of practical software I wish existed, for the handful of other people who would
+          want it too. The first one is on the way.
         </p>
+        <p>
+          That is the whole plan. Make good tools. Charge a fair price once. Be around to fix things
+          when they break.
+        </p>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section class="section" id="contact">
+      <div class="contact">
+        <div class="contact__intro">
+          <span class="eyebrow eyebrow--rule">Contact</span>
+          <h2 class="section__title">Say hello.</h2>
+          <p>
+            Found a bug, have an idea, or just want to talk shop? A real person reads every message.
+            That person is me.
+          </p>
+          <a class="contact__email" href="mailto:contact@regularguylabs.com">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+            contact@regularguylabs.com
+          </a>
+        </div>
+        <div class="card contact__card">
+          <form id="contact-form">
+            <div class="contact__grid">
+              <label class="field" for="c-name">
+                <span class="field__label">Name</span>
+                <input class="field__control" id="c-name" type="text" placeholder="Your name" required>
+              </label>
+              <label class="field" for="c-email">
+                <span class="field__label">Email</span>
+                <input class="field__control" id="c-email" type="email" placeholder="you@example.com" required>
+              </label>
+            </div>
+            <label class="field contact__msg" for="c-msg">
+              <span class="field__label">Message</span>
+              <textarea class="field__control" id="c-msg" placeholder="What's on your mind?" required></textarea>
+            </label>
+            <button class="btn btn--prominent btn--lg contact__send" type="submit">Send message</button>
+          </form>
+          <div class="contact__thanks" id="contact-thanks" hidden>
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            <p>Thanks. I'll get back to you.</p>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
   <!-- Footer -->
-  <footer id="contact" class="border-t border-line">
-    <div class="max-w-4xl mx-auto px-6 sm:px-10 py-12 flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
-      <div class="flex items-center gap-3">
-        <img src="/logo.png" alt="" class="w-6 h-6 object-contain opacity-70">
-        <p class="text-xs text-muted">
-          &copy; 2026 Regular Guy Labs · Oahu, Hawaii
-        </p>
-      </div>
-
-      <div class="flex items-center gap-5">
-        <a href="mailto:contact@regularguylabs.com" class="text-xs text-muted hover:text-ink transition-colors duration-200 no-underline">
-          contact@regularguylabs.com
-        </a>
-
-        <!-- Instagram -->
-        <a href="https://instagram.com/regularguylabs" target="_blank" rel="noopener noreferrer"
-           class="text-soft hover:text-ink transition-colors duration-200"
-           aria-label="Regular Guy Labs on Instagram">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8504.6165 19.0872.321 18.2145.1202 16.9376.0645 15.6602.0093 15.2497-.005 11.9849.0009 8.7206.0076 8.3099.0215 7.0301.084m.2138 21.8318c-1.1735-.0539-1.8111-.2504-2.2349-.4154-.5621-.2177-.9627-.4786-1.3836-.8965-.4224-.4202-.6806-.8229-.8989-1.3864-.1626-.4231-.3555-1.0608-.405-2.2342-.0539-1.2687-.0654-1.6495-.0662-4.8587-.0005-3.2092.0112-3.5905.0653-4.8593.0539-1.1735.2504-1.8111.4154-2.2347.2191-.5627.4786-.9627.8983-1.3837.4202-.4225.8226-.6807 1.3867-.8993.4228-.1623 1.0604-.3552 2.234-.4049 1.2688-.054 1.6498-.0656 4.8581-.0661 3.2094-.0005 3.5906.0114 4.8594.0654 1.1734.0539 1.8111.2504 2.2347.4154.5621.2175.9631.4786 1.384.8956.4222.4194.6807.823.8992 1.3863.1627.4231.3555 1.0607.405 2.234.054 1.2687.066 1.6497.0658 4.8586.0005 3.2088-.012 3.5904-.0654 4.8593-.0539 1.1735-.2504 1.811-.4154 2.2348-.2188.5625-.4784.9628-.8978 1.3834-.4194.4222-.8228.6807-1.3867.899-.4228.1627-1.0608.3556-2.2341.4052-1.2687.0534-1.6498.0652-4.8589.0655-3.2094.0003-3.5905-.0115-4.8594-.0653M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg>
-        </a>
-        <!-- Reddit -->
-        <a href="https://reddit.com/user/regularguylabs" target="_blank" rel="noopener noreferrer"
-           class="text-soft hover:text-ink transition-colors duration-200"
-           aria-label="Regular Guy Labs on Reddit">
-          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0Zm5.01 4.744c.688 0 1.25.561 1.25 1.249a1.25 1.25 0 0 1-2.498.056l-2.597-.547-.8 3.747c1.824.07 3.48.632 4.674 1.488.308-.309.73-.491 1.207-.491.968 0 1.754.786 1.754 1.754 0 .716-.435 1.333-1.01 1.614a3.111 3.111 0 0 1 .042.52c0 2.694-3.13 4.87-7.004 4.87-3.874 0-7.004-2.176-7.004-4.87 0-.183.015-.366.043-.534A1.748 1.748 0 0 1 4.028 12c0-.968.786-1.754 1.754-1.754.463 0 .898.196 1.207.49 1.207-.883 2.878-1.43 4.744-1.487l.885-4.182a.342.342 0 0 1 .14-.197.35.35 0 0 1 .238-.042l2.906.617a1.214 1.214 0 0 1 1.108-.701ZM9.25 12C8.561 12 8 12.56 8 13.25c0 .687.561 1.248 1.25 1.248.687 0 1.248-.561 1.248-1.249 0-.688-.561-1.249-1.249-1.249Zm5.5 0c-.687 0-1.248.561-1.248 1.25 0 .687.561 1.248 1.249 1.248.688 0 1.249-.561 1.249-1.249 0-.687-.562-1.249-1.25-1.249Zm-5.466 3.99a.327.327 0 0 0-.231.094.33.33 0 0 0 0 .463c.842.842 2.484.913 2.961.913.477 0 2.105-.056 2.961-.913a.361.361 0 0 0 .029-.463.33.33 0 0 0-.464 0c-.547.533-1.684.73-2.512.73-.828 0-1.979-.196-2.512-.73a.326.326 0 0 0-.232-.095Z"/></svg>
-        </a>
-      </div>
+  <footer class="foot">
+    <div class="foot__brand">
+      <img src="/rgl-avatar.png" alt="" width="24" height="24">
+      <span>© 2026 Regular Guy Labs · Oahu, Hawaii</span>
+    </div>
+    <div class="foot__links">
+      <a href="mailto:contact@regularguylabs.com">contact@regularguylabs.com</a>
+      <a href="https://wheelright.app" target="_blank" rel="noopener noreferrer">Wheelright</a>
     </div>
   </footer>
 
-  <!-- Contact Modal -->
-  <div id="contact-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4">
-    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="document.getElementById('contact-modal').classList.add('hidden')"></div>
-    <div class="relative bg-card rounded-2xl shadow-xl w-full p-8 border border-line" style="max-width:440px">
-      <div class="flex items-center justify-between mb-6">
-        <h2 class="text-lg font-semibold text-ink tracking-tight">Get in touch</h2>
-        <button onclick="document.getElementById('contact-modal').classList.add('hidden')"
-                class="text-soft hover:text-ink transition-colors duration-200 bg-transparent border-none cursor-pointer"
-                aria-label="Close">
-          <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-      </div>
-      <form id="contact-form" class="space-y-4">
-        <div>
-          <label for="contact-name" class="block text-xs font-medium text-ink mb-1.5">Name</label>
-          <input type="text" id="contact-name" required
-                 class="w-full px-3 py-2.5 text-sm border border-line rounded-lg bg-bg text-ink
-                        focus:outline-none focus:ring-2 focus:ring-ink/20 focus:border-ink/40
-                        transition-colors duration-200 placeholder:text-soft"
-                 placeholder="Your name">
-        </div>
-        <div>
-          <label for="contact-email" class="block text-xs font-medium text-ink mb-1.5">Email</label>
-          <input type="email" id="contact-email" required
-                 class="w-full px-3 py-2.5 text-sm border border-line rounded-lg bg-bg text-ink
-                        focus:outline-none focus:ring-2 focus:ring-ink/20 focus:border-ink/40
-                        transition-colors duration-200 placeholder:text-soft"
-                 placeholder="you@example.com">
-        </div>
-        <div>
-          <label for="contact-message" class="block text-xs font-medium text-ink mb-1.5">Message</label>
-          <textarea id="contact-message" rows="4" required
-                    class="w-full px-3 py-2.5 text-sm border border-line rounded-lg bg-bg text-ink
-                           focus:outline-none focus:ring-2 focus:ring-ink/20 focus:border-ink/40
-                           transition-colors duration-200 placeholder:text-soft resize-none"
-                    placeholder="What's on your mind?"></textarea>
-        </div>
-        <button type="submit"
-                class="w-full py-3 text-sm font-semibold text-bg bg-ink hover:bg-ink/85
-                       rounded-lg transition-colors duration-200 cursor-pointer border-none font-sans">
-          Send Message
-        </button>
-      </form>
-    </div>
-  </div>
+</div>
 
-  <script>
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') document.getElementById('contact-modal').classList.add('hidden');
-    });
-    document.getElementById('contact-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      var name = document.getElementById('contact-name').value;
-      var email = document.getElementById('contact-email').value;
-      var message = document.getElementById('contact-message').value;
-      var subject = encodeURIComponent('Contact from ' + name);
-      var body = encodeURIComponent('From: ' + name + ' (' + email + ')\n\n' + message);
-      window.location.href = 'mailto:contact@regularguylabs.com?subject=' + subject + '&body=' + body;
-      document.getElementById('contact-modal').classList.add('hidden');
-    });
-  </script>
+<script>
+  document.getElementById('contact-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var name = document.getElementById('c-name').value;
+    var email = document.getElementById('c-email').value;
+    var message = document.getElementById('c-msg').value;
+    var subject = encodeURIComponent('Contact from ' + name);
+    var body = encodeURIComponent('From: ' + name + ' (' + email + ')\n\n' + message);
+    window.location.href = 'mailto:contact@regularguylabs.com?subject=' + subject + '&body=' + body;
+    this.hidden = true;
+    document.getElementById('contact-thanks').hidden = false;
+  });
+</script>
 
 </body>
 </html>
